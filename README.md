@@ -18,13 +18,17 @@ I have the tendency to kill plants by either over or underwatering them so I tho
 4. openAI API key
 
 
-![Alt text](Images/seeed.jpeg image.jpg)
+![Alt text](Images/seeed.jpeg)
 
-##Architecture
+## Architecture
 
 Here is the flow  
 
 ![Alt text](Images/flow.png)
+
+
+## Node Red Logic
+![Alt text](Images/nodered.png)
 
 
 ## Payload
