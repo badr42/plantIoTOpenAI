@@ -1,0 +1,671 @@
+[
+    {
+        "id": "77aa44b337fcfc01",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "50ab583682e10e43",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5cbeb64c394fe40a",
+        "type": "mqtt-broker",
+        "name": "sensors",
+        "broker": "150.136.105.107",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "sensor/wio-terminal",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "ccbfa2e83c2a3327",
+        "type": "mqtt in",
+        "z": "77aa44b337fcfc01",
+        "name": "wio_terminal",
+        "topic": "sensor/wio-terminal",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "5cbeb64c394fe40a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 260,
+        "wires": [
+            [
+                "8c0d59be453b1aa9"
+            ]
+        ]
+    },
+    {
+        "id": "a8292599efbc7acd",
+        "type": "debug",
+        "z": "77aa44b337fcfc01",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.vibration",
+        "targetType": "jsonata",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "8c0d59be453b1aa9",
+        "type": "json",
+        "z": "77aa44b337fcfc01",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 330,
+        "y": 260,
+        "wires": [
+            [
+                "24c90fa9a740f04a",
+                "a8292599efbc7acd",
+                "337d906b5e25e59e",
+                "9a56d08732e1d157",
+                "5260408f700da6b6",
+                "7ec734b20746d9cf"
+            ]
+        ]
+    },
+    {
+        "id": "24c90fa9a740f04a",
+        "type": "function",
+        "z": "77aa44b337fcfc01",
+        "name": "function 1",
+        "func": "// msg= \"\"+msg.payload.vibration;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "337d906b5e25e59e",
+        "type": "template",
+        "z": "77aa44b337fcfc01",
+        "name": "humidity_temp",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\"deviceId\" : \"12345678-6c03-40ca-98b3-3d3aaec122\",\n \"params\" : [ {\"name\" : \"current_humidity\", \"value\": {{payload.humi}}  }\n , {\"name\" : \"current_temperature\", \"value\":{{payload.temp}} } ]}",
+        "output": "json",
+        "x": 620,
+        "y": 260,
+        "wires": [
+            [
+                "48048357285631b9"
+            ]
+        ]
+    },
+    {
+        "id": "48048357285631b9",
+        "type": "http request",
+        "z": "77aa44b337fcfc01",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://infra.wedoteam.io:8443/iot-gateway/sendData",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 810,
+        "y": 260,
+        "wires": [
+            [
+                "544f63163f3913bf"
+            ]
+        ]
+    },
+    {
+        "id": "544f63163f3913bf",
+        "type": "debug",
+        "z": "77aa44b337fcfc01",
+        "name": "http_temp",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "9a56d08732e1d157",
+        "type": "debug",
+        "z": "77aa44b337fcfc01",
+        "name": "payload_debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5260408f700da6b6",
+        "type": "template",
+        "z": "77aa44b337fcfc01",
+        "name": "vibration",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"deviceId\" : \"12345678-6c03-40ca-98b3-3d3aaec122\",\n \"params\" : [ {\"name\" : \"current_vibration\", \"value\": {{payload.vibration}}  }\n]}",
+        "output": "str",
+        "x": 600,
+        "y": 320,
+        "wires": [
+            [
+                "89fc94bf8a0b17f3"
+            ]
+        ]
+    },
+    {
+        "id": "89fc94bf8a0b17f3",
+        "type": "http request",
+        "z": "77aa44b337fcfc01",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://infra.wedoteam.io:8443/iot-gateway/sendData",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 810,
+        "y": 320,
+        "wires": [
+            [
+                "8aea91692e6bf19a"
+            ]
+        ]
+    },
+    {
+        "id": "8aea91692e6bf19a",
+        "type": "debug",
+        "z": "77aa44b337fcfc01",
+        "name": "Vibration_http",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "7ec734b20746d9cf",
+        "type": "template",
+        "z": "77aa44b337fcfc01",
+        "name": "vibration",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"deviceId\" : \"12345678-6c03-40ca-98b3-3d3aaec122\",\n \"params\" : [ {\"name\" : \"current_batteryLevel\", \"value\": 70  }\n]}\n\n",
+        "output": "str",
+        "x": 600,
+        "y": 440,
+        "wires": [
+            [
+                "c8dc3b08aa1ca8b3"
+            ]
+        ]
+    },
+    {
+        "id": "c8dc3b08aa1ca8b3",
+        "type": "http request",
+        "z": "77aa44b337fcfc01",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://infra.wedoteam.io:8443/iot-gateway/sendData",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 810,
+        "y": 440,
+        "wires": [
+            [
+                "25d75aef52d5de10"
+            ]
+        ]
+    },
+    {
+        "id": "25d75aef52d5de10",
+        "type": "debug",
+        "z": "77aa44b337fcfc01",
+        "name": "Vibration_http",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "b4e52edb97e1db81",
+        "type": "exec",
+        "z": "77aa44b337fcfc01",
+        "command": "python3 /home/ubuntu/chatGPT_hum.py ",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 680,
+        "y": 980,
+        "wires": [
+            [
+                "5fcb7cbd5cc7b991",
+                "c2f4bdf462283f03"
+            ],
+            [
+                "a978926751d19488"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5fcb7cbd5cc7b991",
+        "type": "debug",
+        "z": "77aa44b337fcfc01",
+        "name": "chatGPT_Response",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "379463e629f6b6dc",
+        "type": "mqtt in",
+        "z": "77aa44b337fcfc01",
+        "name": "wio_terminal",
+        "topic": "/v2.0/devices/wio-terminal-plant",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "5cbeb64c394fe40a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 980,
+        "wires": [
+            [
+                "b9284c8441f169a3"
+            ]
+        ]
+    },
+    {
+        "id": "b9284c8441f169a3",
+        "type": "json",
+        "z": "77aa44b337fcfc01",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 290,
+        "y": 980,
+        "wires": [
+            [
+                "c0af6181359f738a"
+            ]
+        ]
+    },
+    {
+        "id": "c0af6181359f738a",
+        "type": "template",
+        "z": "77aa44b337fcfc01",
+        "name": "build_args",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.humidity}} {{payload.plant}}",
+        "output": "str",
+        "x": 430,
+        "y": 900,
+        "wires": [
+            [
+                "4828b35cd7056267",
+                "b4e52edb97e1db81"
+            ]
+        ]
+    },
+    {
+        "id": "4828b35cd7056267",
+        "type": "debug",
+        "z": "77aa44b337fcfc01",
+        "name": "payload_debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "a978926751d19488",
+        "type": "debug",
+        "z": "77aa44b337fcfc01",
+        "name": "chatGPT_err",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "c2f4bdf462283f03",
+        "type": "json",
+        "z": "77aa44b337fcfc01",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 950,
+        "y": 960,
+        "wires": [
+            [
+                "4c5d250bc2c00b4a"
+            ]
+        ]
+    },
+    {
+        "id": "4c5d250bc2c00b4a",
+        "type": "debug",
+        "z": "77aa44b337fcfc01",
+        "name": "chatGPT_Response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.choices[0].text",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "b2df09cc48460c7f",
+        "type": "exec",
+        "z": "50ab583682e10e43",
+        "command": "python3 /home/ubuntu/chatGPT_hum.py ",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 780,
+        "y": 360,
+        "wires": [
+            [
+                "b89dd0fbb66491d8",
+                "99e55361c2ba768a"
+            ],
+            [
+                "e037846040995ed9"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "b89dd0fbb66491d8",
+        "type": "debug",
+        "z": "50ab583682e10e43",
+        "name": "chatGPT_Response",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "91dc8936d8a9bee0",
+        "type": "mqtt in",
+        "z": "50ab583682e10e43",
+        "name": "wio_terminal",
+        "topic": "/v2.0/devices/wio-terminal-plant",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "5cbeb64c394fe40a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 360,
+        "wires": [
+            [
+                "610dea1d7e1300dd"
+            ]
+        ]
+    },
+    {
+        "id": "610dea1d7e1300dd",
+        "type": "json",
+        "z": "50ab583682e10e43",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 390,
+        "y": 360,
+        "wires": [
+            [
+                "39c25b8ed66038f9"
+            ]
+        ]
+    },
+    {
+        "id": "39c25b8ed66038f9",
+        "type": "template",
+        "z": "50ab583682e10e43",
+        "name": "build_args",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.humidity}} {{payload.plant}}",
+        "output": "str",
+        "x": 530,
+        "y": 280,
+        "wires": [
+            [
+                "3a5a0e515905f2d2",
+                "b2df09cc48460c7f"
+            ]
+        ]
+    },
+    {
+        "id": "3a5a0e515905f2d2",
+        "type": "debug",
+        "z": "50ab583682e10e43",
+        "name": "payload_debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "e037846040995ed9",
+        "type": "debug",
+        "z": "50ab583682e10e43",
+        "name": "chatGPT_err",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "99e55361c2ba768a",
+        "type": "json",
+        "z": "50ab583682e10e43",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 1050,
+        "y": 340,
+        "wires": [
+            [
+                "70c187d98c3767cf"
+            ]
+        ]
+    },
+    {
+        "id": "70c187d98c3767cf",
+        "type": "debug",
+        "z": "50ab583682e10e43",
+        "name": "chatGPT_Response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.choices[0].text",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 340,
+        "wires": []
+    }
+]
